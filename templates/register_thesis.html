@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Trabajo de Titulación</title>
+</head>
+<body>
+    <h1>Registrar Trabajo de Titulación</h1>
+    <form id="thesisForm" action="/register_thesis" method="post">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="authors">Autor(es):</label>
+        <input type="text" id="authors" name="authors" required><br>
+        <label for="summary">Resumen:</label><br>
+        <textarea id="summary" name="summary" rows="4" cols="50" required></textarea><br>
+        <label for="keywords">Palabras Clave:</label>
+        <input type="text" id="keywords" name="keywords" required><br>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+    <br>
+    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Formas de Titulación</title>
+</head>
+<body>
+    <h1>Formas de Titulación Registradas</h1>
+    <ul>
+    {% for titulacion in titulaciones %}
+        <li>{{ titulacion.title }}: {{ titulacion.content }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

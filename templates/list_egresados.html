@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Egresados</title>
+</head>
+<body>
+    <h1>Egresados Registrados</h1>
+    <ul>
+    {% for egresado in egresados %}
+        <li>{{ egresado.name }} - {{ egresado.boleta }} - {{ egresado.area }} - {{ egresado.generation }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

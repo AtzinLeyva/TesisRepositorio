@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Calendarios de Convocatorias</title>
+</head>
+<body>
+    <h1>Calendarios de Convocatorias Registrados</h1>
+    <ul>
+    {% for calendario in calendarios %}
+        <li>Inicio: {{ calendario.start_date }} - Fin: {{ calendario.end_date }} - Requisitos: {{ calendario.requirements }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

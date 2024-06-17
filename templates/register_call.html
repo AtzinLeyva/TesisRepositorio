@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Convocatorias de Titulación</title>
+</head>
+<body>
+    <h1>Registrar Convocatorias de Titulación</h1>
+    <form id="callForm" action="/register_call" method="post">
+        <label for="title">Título de la Convocatoria:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="description">Descripción:</label><br>
+        <textarea id="description" name="description" required></textarea><br>
+        <label for="start_date">Fecha de Inicio:</label>
+        <input type="date" id="start_date" name="start_date" required><br>
+        <label for="end_date">Fecha de Fin:</label>
+        <input type="date" id="end_date" name="end_date" required><br>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+    <br>
+    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+</body>
+</html>

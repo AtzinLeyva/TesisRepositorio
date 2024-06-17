@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Calendario de Convocatorias</title>
+</head>
+<body>
+    <h1>Registrar Calendario de Convocatorias</h1>
+    <form id="calendarForm" action="/register_calendar" method="post">
+        <label for="start_date">Fecha de Inicio:</label>
+        <input type="date" id="start_date" name="start_date" required><br>
+        <label for="end_date">Fecha Límite de Entrega:</label>
+        <input type="date" id="end_date" name="end_date" required><br>
+        <label for="requirements">Requisitos:</label><br>
+        <textarea id="requirements" name="requirements" required></textarea><br>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+    <br>
+    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+</body>
+</html>

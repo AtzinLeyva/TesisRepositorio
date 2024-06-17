@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda de Trabajos de Titulación</title>
+    <script>
+        async function handleSearch(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+            const results = await response.json();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.innerHTML = `<h3>${result.title}</h3><p>${result.authors}</p><p>${result.summary}</p><p><strong>Palabras Clave:</strong> ${result.keywords}</p>`;
+                resultsDiv.appendChild(resultItem);
+            });
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', handleSearch);
+    </script>
+</head>
+<body>
+    <h1>Buscar Trabajos de Titulación</h1>
+    {% if current_user.is_authenticated %}
+        <p>Logged in as: {{ current_user.username }} | <a href="{{ url_for('logout') }}">Logout</a></p>
+        <a href="/register">Registrar nuevas formas de titulación</a><br>
+        <a href="/list_titulaciones">Listar formas de titulación</a><br>
+        <a href="/register_egresado">Registrar Egresado</a><br>
+        <a href="/list_egresados">Listar Egresados</a><br>
+        <a href="/register_calendar">Registrar Calendario de Convocatorias</a><br>
+        <a href="/list_calendars">Listar Calendarios de Convocatorias</a><br> <!-- Enlace añadido -->
+        <a href="/register_call">Registrar Convocatorias de Titulación</a><br>
+        <a href="/register_seminar">Registrar Seminarios de Titulación</a><br>
+        <a href="/register_thesis">Registrar Trabajos de Titulación</a><br>
+        <a href="/register_student">Registrar Alumno</a><br>
+    {% else %}
+        <p><a href="{{ url_for('login') }}">Login</a></p>
+    {% endif %}
+    <form id="searchForm" action="/search" method="post">
+        <label for="query">Ingrese su búsqueda:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Buscar</button>
+    </form>
+    <div id="results"></div>
+</body>
+</html>

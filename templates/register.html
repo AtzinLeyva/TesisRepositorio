@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Formas de Titulación</title>
+</head>
+<body>
+    <h1>Registrar Formas de Titulación</h1>
+    <form id="registrationForm" action="/register" method="post">
+        <label for="title">Forma de titulación:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="requirements">Requisitos:</label><br>
+        <textarea id="requirements" name="requirements" required></textarea><br>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="message"></div>
+    <br>
+    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+</body>
+</html>
