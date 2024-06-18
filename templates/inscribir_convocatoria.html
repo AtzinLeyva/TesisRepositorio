@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscribirse en Convocatoria</title>
+</head>
+<body>
+    <h1>Inscribirse en Convocatoria</h1>
+    <h2>{{ convocatoria.title }}</h2>
+    <p>{{ convocatoria.description }}</p>
+    <form action="{{ url_for('inscribir_convocatoria', convocatoria_id=convocatoria.id) }}" method="post">
+        <button type="submit">Confirmar Inscripción</button>
+    </form>
+    <a href="{{ url_for('list_available_calls') }}">Volver a la lista de convocatorias</a>
+</body>
+</html>

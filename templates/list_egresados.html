@@ -8,7 +8,7 @@
     <h1>Egresados Registrados</h1>
     <ul>
     {% for egresado in egresados %}
-        <li>{{ egresado.name }} - {{ egresado.boleta }} - {{ egresado.area }} - {{ egresado.generation }}</li>
+        <li>Nombre: {{ egresado.name }} - Boleta: {{ egresado.boleta }} - Área: {{ egresado.area }} - Generación: {{ egresado.generation }} - Usuario: {{ egresado.user.username }}</li>
     {% endfor %}
     </ul>
     <a href="/">Volver a la página principal</a>

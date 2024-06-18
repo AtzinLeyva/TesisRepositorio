@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Personal Administrativo</title>
+</head>
+<body>
+    <h1>Personal Administrativo Registrado</h1>
+    <ul>
+    {% for admin in admins %}
+        <li>Nombre: {{ admin.name }} - Descripción del Rol: {{ admin.role_description }} - Usuario: {{ admin.user.username }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

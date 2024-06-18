@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Convocatorias de Titulación</title>
+</head>
+<body>
+    <h1>Convocatorias de Titulación Registradas</h1>
+    <ul>
+    {% for convocatoria in convocatorias %}
+        <li>Título: {{ convocatoria.title }} - Descripción: {{ convocatoria.description }} - Inicio: {{ convocatoria.start_date }} - Fin: {{ convocatoria.end_date }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

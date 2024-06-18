@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Alumnos</title>
+</head>
+<body>
+    <h1>Alumnos Registrados</h1>
+    <ul>
+    {% for alumno in alumnos %}
+        <li>Nombre: {{ alumno.name }} - Boleta: {{ alumno.boleta }} - Área: {{ alumno.area }} - Semestre: {{ alumno.semester }} - Usuario: {{ alumno.username }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

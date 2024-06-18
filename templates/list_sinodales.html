@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Sinodales</title>
+</head>
+<body>
+    <h1>Sinodales Registrados</h1>
+    <ul>
+    {% for sinodal in sinodales %}
+        <li>Nombre: {{ sinodal.name }} - Especialización: {{ sinodal.specialization }} - Usuario: {{ sinodal.user.username }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

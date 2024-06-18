@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Convocatorias Disponibles</title>
+</head>
+<body>
+    <h1>Convocatorias Disponibles</h1>
+    <ul>
+    {% for convocatoria in convocatorias %}
+        <li>
+            <h2>{{ convocatoria.title }}</h2>
+            <p>{{ convocatoria.description }}</p>
+            <p>Fecha de inicio: {{ convocatoria.start_date }}</p>
+            <p>Fecha de fin: {{ convocatoria.end_date }}</p>
+            <a href="{{ url_for('inscribir_convocatoria', convocatoria_id=convocatoria.id) }}">Inscribirse</a>
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

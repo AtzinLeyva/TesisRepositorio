@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Seminarios de Titulación</title>
+</head>
+<body>
+    <h1>Seminarios de Titulación Registrados</h1>
+    <ul>
+    {% for seminar in seminarios %}
+        <li>Fecha: {{ seminar.date }} - Tema: {{ seminar.topic }} - Ponente: {{ seminar.speaker }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>

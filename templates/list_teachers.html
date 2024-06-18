@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Docentes</title>
+</head>
+<body>
+    <h1>Docentes Registrados</h1>
+    <ul>
+    {% for docente in docentes %}
+        <li>Nombre: {{ docente.name }} - Especialización: {{ docente.specialization }} - Usuario: {{ docente.username }}</li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
+</body>
+</html>
