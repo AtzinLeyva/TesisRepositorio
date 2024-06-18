@@ -5,10 +5,16 @@
     <title>Listar Convocatorias de Titulación</title>
 </head>
 <body>
-    <h1>Convocatorias de Titulación Registradas</h1>
+    <h1>Convocatorias de Titulación</h1>
     <ul>
     {% for convocatoria in convocatorias %}
-        <li>Título: {{ convocatoria.title }} - Descripción: {{ convocatoria.description }} - Inicio: {{ convocatoria.start_date }} - Fin: {{ convocatoria.end_date }}</li>
+        <li>
+            <h2>{{ convocatoria.title }}</h2>
+            <p>{{ convocatoria.description }}</p>
+            <p>Fecha de inicio: {{ convocatoria.start_date }}</p>
+            <p>Fecha de fin: {{ convocatoria.end_date }}</p>
+            <a href="{{ url_for('consultar_convocatoria', convocatoria_id=convocatoria.id) }}">Consultar</a>
+        </li>
     {% endfor %}
     </ul>
     <a href="/">Volver a la página principal</a>

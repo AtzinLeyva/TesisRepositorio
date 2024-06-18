@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la Convocatoria</title>
+</head>
+<body>
+    <h1>{{ convocatoria.title }}</h1>
+    <p>{{ convocatoria.description }}</p>
+    <p><strong>Fecha de inicio:</strong> {{ convocatoria.start_date }}</p>
+    <p><strong>Fecha de fin:</strong> {{ convocatoria.end_date }}</p>
+    <a href="{{ url_for('list_available_calls') }}">Volver a la lista de convocatorias</a>
+</body>
+</html>

@@ -5,6 +5,7 @@ from whoosh.index import create_in, open_dir
 from whoosh.fields import Schema, TEXT
 from whoosh.qparser import QueryParser
 import os
+import random
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -97,6 +98,26 @@ class InscripcionConvocatoria(db.Model):
     convocatoria = db.relationship('Convocatoria', backref=db.backref('inscripciones', cascade='all, delete-orphan'))
     alumno = db.relationship('Alumno', backref=db.backref('inscripciones', cascade='all, delete-orphan'))
 
+class CalendarioConvocatoria(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start_date = db.Column(db.String(50), nullable=False)
+    end_date = db.Column(db.String(50), nullable=False)
+    requirements = db.Column(db.String(500), nullable=False)
+
+class Seminario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(50), nullable=False)
+    topic = db.Column(db.String(150), nullable=False)
+    speaker = db.Column(db.String(150), nullable=False)
+
+class TrabajoTitulacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    identifier = db.Column(db.String(10), unique=True, nullable=False)
+    title = db.Column(db.String(150), nullable=False)
+    authors = db.Column(db.String(150), nullable=False)
+    summary = db.Column(db.String(500), nullable=False)
+    keywords = db.Column(db.String(150), nullable=False)
+
 # Crear la base de datos y las tablas
 with app.app_context():
     db.create_all()
@@ -113,6 +134,7 @@ def load_user(user_id):
 
 # Ruta para la página principal de búsqueda
 @app.route('/')
+@login_required
 def home():
     return render_template('index.html')
 
@@ -230,13 +252,16 @@ def register_calendar_post():
     start_date = request.form['start_date']
     end_date = request.form['end_date']
     requirements = request.form['requirements']
-    calendarios.append({'start_date': start_date, 'end_date': end_date, 'requirements': requirements})
+    calendario = CalendarioConvocatoria(start_date=start_date, end_date=end_date, requirements=requirements)
+    db.session.add(calendario)
+    db.session.commit()
     return redirect(url_for('register_calendar'))
 
 # Ruta para listar calendarios de convocatorias
 @app.route('/list_calendars')
 @login_required
 def list_calendars():
+    calendarios = CalendarioConvocatoria.query.all()
     return render_template('list_calendars.html', calendarios=calendarios)
 
 # Ruta para la página de registro de convocatorias de titulación
@@ -278,13 +303,16 @@ def register_seminar_post():
     date = request.form['date']
     topic = request.form['topic']
     speaker = request.form['speaker']
-    seminarios.append({'date': date, 'topic': topic, 'speaker': speaker})
+    seminario = Seminario(date=date, topic=topic, speaker=speaker)
+    db.session.add(seminario)
+    db.session.commit()
     return redirect(url_for('register_seminar'))
 
 # Ruta para listar seminarios de titulación
 @app.route('/list_seminars')
 @login_required
 def list_seminars():
+    seminarios = Seminario.query.all()
     return render_template('list_seminars.html', seminarios=seminarios)
 
 # Ruta para la página de registro de trabajos de titulación
@@ -301,14 +329,53 @@ def register_thesis_post():
     authors = request.form['authors']
     summary = request.form['summary']
     keywords = request.form['keywords']
+
+    # Generar un identificador único
+    identifier = str(random.randint(100000, 999999))
+    while TrabajoTitulacion.query.filter_by(identifier=identifier).first():
+        identifier = str(random.randint(100000, 999999))
+
     try:
         writer = index.writer()
         writer.add_document(title=title, authors=authors, summary=summary, keywords=keywords, content=summary)
         writer.commit()
+
+        trabajo = TrabajoTitulacion(identifier=identifier, title=title, authors=authors, summary=summary, keywords=keywords)
+        db.session.add(trabajo)
+        db.session.commit()
+
     except Exception as e:
         writer.cancel()
         raise e
+
     return redirect(url_for('register_thesis'))
+
+# Ruta para listar todas las tesis
+@app.route('/list_theses')
+@login_required
+def list_theses():
+    theses = TrabajoTitulacion.query.all()
+    return render_template('list_theses.html', theses=theses)
+
+# Ruta para ver los detalles de una tesis
+@app.route('/thesis/<identifier>')
+@login_required
+def view_thesis(identifier):
+    thesis = TrabajoTitulacion.query.filter_by(identifier=identifier).first_or_404()
+    return render_template('view_thesis.html', thesis=thesis)
+
+# Ruta para buscar tesis
+@app.route('/search_thesis', methods=['GET', 'POST'])
+@login_required
+def search_thesis():
+    if request.method == 'POST':
+        query = request.form['query']
+        theses = TrabajoTitulacion.query.filter(
+            (TrabajoTitulacion.identifier.like(f"%{query}%")) | 
+            (TrabajoTitulacion.title.like(f"%{query}%"))
+        ).all()
+        return render_template('list_theses.html', theses=theses)
+    return render_template('search_thesis.html')
 
 # Ruta para la página de registro de alumnos
 @app.route('/register_student')
@@ -467,6 +534,30 @@ def inscribir_convocatoria(convocatoria_id):
         flash('Inscripción realizada con éxito.')
         return redirect(url_for('list_available_calls'))
     return render_template('inscribir_convocatoria.html', convocatoria=convocatoria)
+
+# Ruta para consultar los detalles de una convocatoria específica
+@app.route('/consultar_convocatoria/<int:convocatoria_id>')
+@login_required
+def consultar_convocatoria(convocatoria_id):
+    convocatoria = Convocatoria.query.get_or_404(convocatoria_id)
+    return render_template('consultar_convocatoria.html', convocatoria=convocatoria)
+
+# Ruta para listar usuarios
+@app.route('/list_users')
+@login_required
+def list_users():
+    users = User.query.all()
+    return render_template('list_users.html', users=users)
+
+# Ruta para borrar un usuario
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('Usuario eliminado con éxito.')
+    return redirect(url_for('list_users'))
 
 if __name__ == '__main__':
     app.run(debug=True)

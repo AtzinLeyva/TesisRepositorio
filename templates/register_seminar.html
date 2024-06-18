@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Seminarios de Titulación</title>
+    <title>Listar Seminarios de Titulación</title>
 </head>
 <body>
-    <h1>Registrar Seminarios de Titulación</h1>
-    <form id="seminarForm" action="/register_seminar" method="post">
-        <label for="date">Fecha:</label>
-        <input type="date" id="date" name="date" required><br>
-        <label for="topic">Tema:</label>
-        <input type="text" id="topic" name="topic" required><br>
-        <label for="speaker">Ponente:</label>
-        <input type="text" id="speaker" name="speaker" required><br>
-        <button type="submit">Registrar</button>
-    </form>
-    <div id="message"></div>
-    <br>
-    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+    <h1>Seminarios de Titulación</h1>
+    <ul>
+    {% for seminario in seminarios %}
+        <li>
+            <p><strong>Fecha:</strong> {{ seminario.date }}</p>
+            <p><strong>Tema:</strong> {{ seminario.topic }}</p>
+            <p><strong>Ponente:</strong> {{ seminario.speaker }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="/">Volver a la página principal</a>
 </body>
 </html>
