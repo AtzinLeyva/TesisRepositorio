@@ -117,6 +117,7 @@ class TrabajoTitulacion(db.Model):
     authors = db.Column(db.String(150), nullable=False)
     summary = db.Column(db.String(500), nullable=False)
     keywords = db.Column(db.String(150), nullable=False)
+    status = db.Column(db.String(50), nullable=True)
 
 class Evaluacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -642,6 +643,17 @@ def list_theses_with_status():
                 else:
                     thesis.status = 'Reprobado'
     return render_template('list_theses_with_status.html', theses=theses)
+
+# Ruta para consultar el estatus de titulación
+@app.route('/consultar_estatus')
+@login_required
+def consultar_estatus():
+    if current_user.role != 'student':
+        flash('Solo los estudiantes pueden consultar el estatus de titulación.')
+        return redirect(url_for('home'))
+    alumno = Alumno.query.filter_by(user_id=current_user.id).first()
+    inscripciones = InscripcionConvocatoria.query.filter_by(alumno_id=alumno.id).all()
+    return render_template('consultar_estatus.html', inscripciones=inscripciones)
 
 if __name__ == '__main__':
     app.run(debug=True)
