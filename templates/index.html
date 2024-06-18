@@ -31,17 +31,19 @@
     <div class="container d-flex align-items-center flex-column">
         <h1>Buscar Trabajos de Titulación</h1>
         {% if current_user.is_authenticated %}
-            <p>Logged in as: {{ current_user.username }} | <a href="{{ url_for('logout') }}">Logout</a></p>
-            <a href="/register">Registrar nuevas formas de titulación</a><br>
-            <a href="/list_titulaciones">Listar formas de titulación</a><br>
-            <a href="/register_egresado">Registrar Egresado</a><br>
-            <a href="/list_egresados">Listar Egresados</a><br>
-            <a href="/register_calendar">Registrar Calendario de Convocatorias</a><br>
-            <a href="/list_calendars">Listar Calendarios de Convocatorias</a><br> <!-- Enlace añadido -->
-            <a href="/register_call">Registrar Convocatorias de Titulación</a><br>
-            <a href="/register_seminar">Registrar Seminarios de Titulación</a><br>
-            <a href="/register_thesis">Registrar Trabajos de Titulación</a><br>
-            <a href="/register_student">Registrar Alumno</a><br>
+            <p>Logged in as: {{ current_user.username }} | <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a></p>
+            <div class="d-grid gap-2">
+                <a href="/register" class="btn btn-outline-primary">Registrar nuevas formas de titulación</a>
+                <a href="/list_titulaciones" class="btn btn-outline-primary">Listar formas de titulación</a>
+                <a href="/register_egresado" class="btn btn-outline-primary">Registrar Egresado</a>
+                <a href="/list_egresados" class="btn btn-outline-primary">Listar Egresados</a>
+                <a href="/register_calendar" class="btn btn-outline-primary">Registrar Calendario de Convocatorias</a>
+                <a href="/list_calendars" class="btn btn-outline-primary">Listar Calendarios de Convocatorias</a>
+                <a href="/register_call" class="btn btn-outline-primary">Registrar Convocatorias de Titulación</a>
+                <a href="/register_seminar" class="btn btn-outline-primary">Registrar Seminarios de Titulación</a>
+                <a href="/register_thesis" class="btn btn-outline-primary">Registrar Trabajos de Titulación</a>
+                <a href="/register_student" class="btn btn-outline-primary">Registrar Alumno</a>
+            </div>
         {% else %}
             <p><a href="{{ url_for('login') }}" class="btn btn-success">Login</a></p>
         {% endif %}

@@ -1,9 +1,12 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from whoosh.index import create_in, open_dir
-from whoosh.fields import Schema, TEXT
-from whoosh.qparser import QueryParser
 import os
+
+from flask import (Flask, flash, jsonify, redirect, render_template, request,
+                   url_for)
+from flask_login import (LoginManager, UserMixin, current_user, login_required,
+                         login_user, logout_user)
+from whoosh.fields import TEXT, Schema
+from whoosh.index import create_in, open_dir
+from whoosh.qparser import QueryParser
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
