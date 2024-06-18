@@ -51,29 +51,29 @@ class Alumno(db.Model):
     boleta = db.Column(db.String(50), nullable=False)
     area = db.Column(db.String(150), nullable=False)
     semester = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('alumno', uselist=False))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('alumno', uselist=False, cascade='all, delete-orphan'))
 
 class Docente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     specialization = db.Column(db.String(150), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('docente', uselist=False))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('docente', uselist=False, cascade='all, delete-orphan'))
 
 class PersonalAdministrativo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     role_description = db.Column(db.String(250), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('admin', uselist=False))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('admin', uselist=False, cascade='all, delete-orphan'))
 
 class Sinodal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     specialization = db.Column(db.String(150), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('sinodal', uselist=False))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('sinodal', uselist=False, cascade='all, delete-orphan'))
 
 class Egresado(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -81,8 +81,8 @@ class Egresado(db.Model):
     boleta = db.Column(db.String(50), nullable=False)
     area = db.Column(db.String(150), nullable=False)
     generation = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('egresado', uselist=False))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    user = db.relationship('User', backref=db.backref('egresado', uselist=False, cascade='all, delete-orphan'))
 
 class Convocatoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -93,8 +93,8 @@ class Convocatoria(db.Model):
 
 class InscripcionConvocatoria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    convocatoria_id = db.Column(db.Integer, db.ForeignKey('convocatoria.id'), nullable=False)
-    alumno_id = db.Column(db.Integer, db.ForeignKey('alumno.id'), nullable=False)
+    convocatoria_id = db.Column(db.Integer, db.ForeignKey('convocatoria.id', ondelete='CASCADE'), nullable=False)
+    alumno_id = db.Column(db.Integer, db.ForeignKey('alumno.id', ondelete='CASCADE'), nullable=False)
     convocatoria = db.relationship('Convocatoria', backref=db.backref('inscripciones', cascade='all, delete-orphan'))
     alumno = db.relationship('Alumno', backref=db.backref('inscripciones', cascade='all, delete-orphan'))
 

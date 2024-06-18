@@ -28,6 +28,7 @@
         <li><a href="{{ url_for('register_sinodal') }}">Registrar Sinodal</a></li>
         <li><a href="{{ url_for('list_sinodales') }}">Listar Sinodales</a></li>
         <li><a href="{{ url_for('list_users') }}">Listar Usuarios</a></li>
+        <li><a href="{{ url_for('delete_user', user_id=current_user.id) }}">Borrar Mi Usuario</a></li>
     </ul>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
