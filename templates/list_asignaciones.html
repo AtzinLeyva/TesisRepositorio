@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Asignaciones de Sinodales</title>
+</head>
+<body>
+    <h1>Asignaciones de Sinodales</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Trabajo</th>
+                <th>Sinodal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignacion in asignaciones %}
+            <tr>
+                <td>{{ asignacion.trabajo.title }}</td>
+                <td>{{ asignacion.sinodal.name }} - {{ asignacion.sinodal.specialization }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('home') }}">Volver al Inicio</a>
+</body>
+</html>

@@ -7,12 +7,15 @@
 <body>
     <h1>Listar Tesis</h1>
     <ul>
-    {% for thesis in theses %}
-        <li>
-            <a href="{{ url_for('view_thesis', identifier=thesis.identifier) }}">{{ thesis.title }}</a> ({{ thesis.identifier }})
-        </li>
-    {% endfor %}
+        {% for thesis in theses %}
+            <li>
+                Tesis: {{ thesis.title }} - Autores: {{ thesis.authors }}
+                {% if current_user.role == 'sinodal' %}
+                    <a href="{{ url_for('calificar_tesis', thesis_id=thesis.id) }}">Calificar</a>
+                {% endif %}
+            </li>
+        {% endfor %}
     </ul>
-    <a href="/">Volver a la página principal</a>
+    <a href="{{ url_for('home') }}">Volver a Inicio</a>
 </body>
 </html>

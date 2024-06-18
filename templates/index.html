@@ -27,6 +27,14 @@
         <li><a href="{{ url_for('list_admins') }}">Listar Personal Administrativo</a></li>
         <li><a href="{{ url_for('register_sinodal') }}">Registrar Sinodal</a></li>
         <li><a href="{{ url_for('list_sinodales') }}">Listar Sinodales</a></li>
+        {% if current_user.role == 'sinodal' %}
+            <li><a href="{{ url_for('list_theses') }}">Calificar Tesis</a></li>
+        {% endif %}
+        {% if current_user.role == 'student' %}
+            <li><a href="{{ url_for('consultar_estatus') }}">Consultar Estatus de Titulación</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('assign_sinodal') }}">Asignar Sinodales</a></li>
+        <li><a href="{{ url_for('list_theses_with_status') }}">Listar Tesis con Estatus</a></li>
         <li><a href="{{ url_for('list_users') }}">Listar Usuarios</a></li>
         <li><a href="{{ url_for('delete_user', user_id=current_user.id) }}">Borrar Mi Usuario</a></li>
     </ul>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultar Estatus de Titulación</title>
+</head>
+<body>
+    <h1>Consultar Estatus de Titulación</h1>
+    <ul>
+        {% for inscripcion in inscripciones %}
+            <li>
+                Tesis: {{ inscripcion.convocatoria.title }} - Estado: {{ inscripcion.convocatoria.status }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Volver a Inicio</a>
+</body>
+</html>

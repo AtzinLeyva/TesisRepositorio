@@ -118,6 +118,22 @@ class TrabajoTitulacion(db.Model):
     summary = db.Column(db.String(500), nullable=False)
     keywords = db.Column(db.String(150), nullable=False)
 
+class Evaluacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    thesis_id = db.Column(db.Integer, db.ForeignKey('trabajo_titulacion.id', ondelete='CASCADE'), nullable=False)
+    sinodal_id = db.Column(db.Integer, db.ForeignKey('sinodal.id', ondelete='CASCADE'), nullable=False)
+    grade = db.Column(db.Integer, nullable=False)
+    comentario = db.Column(db.String(500), nullable=True)
+    trabajo = db.relationship('TrabajoTitulacion', backref=db.backref('evaluaciones', cascade='all, delete-orphan'))
+    sinodal = db.relationship('Sinodal', backref=db.backref('evaluaciones', cascade='all, delete-orphan'))
+
+class AsignacionSinodal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    thesis_id = db.Column(db.Integer, db.ForeignKey('trabajo_titulacion.id', ondelete='CASCADE'), nullable=False)
+    sinodal_id = db.Column(db.Integer, db.ForeignKey('sinodal.id', ondelete='CASCADE'), nullable=False)
+    trabajo = db.relationship('TrabajoTitulacion', backref=db.backref('asignaciones', cascade='all, delete-orphan'))
+    sinodal = db.relationship('Sinodal', backref=db.backref('asignaciones', cascade='all, delete-orphan'))
+
 # Crear la base de datos y las tablas
 with app.app_context():
     db.create_all()
@@ -558,6 +574,74 @@ def delete_user(user_id):
     db.session.commit()
     flash('Usuario eliminado con éxito.')
     return redirect(url_for('list_users'))
+
+# Ruta para la página de asignación de sinodales
+@app.route('/assign_sinodal')
+@login_required
+def assign_sinodal():
+    theses = TrabajoTitulacion.query.all()
+    sinodales = Sinodal.query.all()
+    return render_template('assign_sinodal.html', theses=theses, sinodales=sinodales)
+
+# Ruta para procesar la asignación de sinodales
+@app.route('/assign_sinodal', methods=['POST'])
+@login_required
+def assign_sinodal_post():
+    thesis_id = request.form['thesis_id']
+    sinodal_id = request.form['sinodal_id']
+    asignacion = AsignacionSinodal(thesis_id=thesis_id, sinodal_id=sinodal_id)
+    db.session.add(asignacion)
+    db.session.commit()
+    flash('Sinodal asignado con éxito.')
+    return redirect(url_for('assign_sinodal'))
+
+# Ruta para calificar tesis
+@app.route('/calificar_tesis/<int:thesis_id>', methods=['GET', 'POST'])
+@login_required
+def calificar_tesis(thesis_id):
+    if current_user.role != 'sinodal':
+        flash('Solo los sinodales pueden calificar las tesis.')
+        return redirect(url_for('home'))
+    thesis = TrabajoTitulacion.query.get_or_404(thesis_id)
+    if request.method == 'POST':
+        grade = int(request.form['grade'])
+        comentario = request.form['comentario']
+        sinodal = Sinodal.query.filter_by(user_id=current_user.id).first()
+        evaluacion = Evaluacion(thesis_id=thesis.id, sinodal_id=sinodal.id, grade=grade, comentario=comentario)
+        db.session.add(evaluacion)
+        db.session.commit()
+        flash('Calificación registrada con éxito.')
+        return redirect(url_for('list_theses'))
+    return render_template('calificar_tesis.html', thesis=thesis)
+
+# Ruta para ver las calificaciones de una tesis
+@app.route('/ver_calificaciones/<int:thesis_id>')
+@login_required
+def ver_calificaciones(thesis_id):
+    thesis = TrabajoTitulacion.query.get_or_404(thesis_id)
+    calificaciones = Evaluacion.query.filter_by(thesis_id=thesis.id).all()
+    return render_template('ver_calificaciones.html', thesis=thesis, calificaciones=calificaciones)
+
+# Ruta para listar todas las tesis con estatus
+@app.route('/list_theses_with_status')
+@login_required
+def list_theses_with_status():
+    theses = TrabajoTitulacion.query.all()
+    for thesis in theses:
+        asignaciones = AsignacionSinodal.query.filter_by(thesis_id=thesis.id).all()
+        if len(asignaciones) < 3:
+            thesis.status = 'Por asignar sinodales'
+        else:
+            calificaciones = Evaluacion.query.filter_by(thesis_id=thesis.id).all()
+            if len(calificaciones) < 3:
+                thesis.status = 'Calificando'
+            else:
+                promedio = sum(c.grade for c in calificaciones) / len(calificaciones)
+                if promedio >= 8:
+                    thesis.status = 'Aprobado'
+                else:
+                    thesis.status = 'Reprobado'
+    return render_template('list_theses_with_status.html', theses=theses)
 
 if __name__ == '__main__':
     app.run(debug=True)

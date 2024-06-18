@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Tesis con Estatus</title>
+</head>
+<body>
+    <h1>Listar Tesis con Estatus</h1>
+    <ul>
+        {% for thesis in theses %}
+            <li>
+                Tesis: {{ thesis.title }} - Estado: {{ thesis.status }}
+                <a href="{{ url_for('ver_calificaciones', thesis_id=thesis.id) }}">Ver Calificaciones</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Volver a Inicio</a>
+</body>
+</html>

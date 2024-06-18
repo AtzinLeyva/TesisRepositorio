@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Calificaciones</title>
+</head>
+<body>
+    <h1>Calificaciones para: {{ thesis.title }}</h1>
+    <ul>
+        {% for calificacion in calificaciones %}
+            <li>
+                Sinodal: {{ calificacion.sinodal.name }} - Calificación: {{ calificacion.grade }} - Comentario: {{ calificacion.comentario }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Volver a Inicio</a>
+</body>
+</html>

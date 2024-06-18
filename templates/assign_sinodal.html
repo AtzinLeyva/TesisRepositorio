@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asignar Sinodales</title>
+</head>
+<body>
+    <h1>Asignar Sinodales a Trabajos de Titulación</h1>
+    <form action="{{ url_for('assign_sinodal') }}" method="post">
+        <label for="thesis">Tesis:</label>
+        <select name="thesis_id" id="thesis">
+            {% for thesis in theses %}
+                <option value="{{ thesis.id }}">{{ thesis.title }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="sinodal">Sinodal:</label>
+        <select name="sinodal_id" id="sinodal">
+            {% for sinodal in sinodales %}
+                <option value="{{ sinodal.id }}">{{ sinodal.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Asignar</button>
+    </form>
+    <a href="{{ url_for('home') }}">Volver a Inicio</a>
+</body>
+</html>
