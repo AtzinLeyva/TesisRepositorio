@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>Listar Tesis</title>
 </head>
 <body>
-    <h1>Listar Tesis</h1>
-    <ul>
-        {% for thesis in theses %}
-            <li>
-                Tesis: {{ thesis.title }} - Autores: {{ thesis.authors }}
-                {% if current_user.role == 'sinodal' %}
-                    <a href="{{ url_for('calificar_tesis', thesis_id=thesis.id) }}">Calificar</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('home') }}">Volver a Inicio</a>
+    <div class="container my-5">
+        <h1 class="mb-4">Listar Tesis</h1>
+        <ul class="list-group">
+            {% for thesis in theses %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Tesis:</strong> {{ thesis.title }}<br>
+                        <strong>Autores:</strong> {{ thesis.authors }}
+                    </div>
+                    {% if current_user.role == 'sinodal' %}
+                        <a href="{{ url_for('calificar_tesis', thesis_id=thesis.id) }}" class="btn btn-primary btn-sm">Calificar</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mt-4">Volver a Inicio</a>
+    </div>
 </body>
 </html>

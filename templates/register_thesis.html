@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>Registrar Trabajo de Titulación</title>
 </head>
 <body>
-    <h1>Registrar Trabajo de Titulación</h1>
-    <form id="thesisForm" action="/register_thesis" method="post">
-        <label for="title">Título:</label>
-        <input type="text" id="title" name="title" required><br>
-        <label for="authors">Autor(es):</label>
-        <input type="text" id="authors" name="authors" required><br>
-        <label for="summary">Resumen:</label><br>
-        <textarea id="summary" name="summary" rows="4" cols="50" required></textarea><br>
-        <label for="keywords">Palabras Clave:</label>
-        <input type="text" id="keywords" name="keywords" required><br>
-        <button type="submit">Registrar</button>
-    </form>
-    <div id="message"></div>
-    <br>
-    <a href="/">Volver a la búsqueda de trabajos de titulación</a>
+    <div class="container my-5">
+        <h1 class="mb-4">Registrar Trabajo de Titulación</h1>
+        <form id="thesisForm" action="/register_thesis" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Título:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="authors" class="form-label">Autor(es):</label>
+                <input type="text" id="authors" name="authors" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="summary" class="form-label">Resumen:</label>
+                <textarea id="summary" name="summary" rows="4" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="keywords" class="form-label">Palabras Clave:</label>
+                <input type="text" id="keywords" name="keywords" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+        <div id="message"></div>
+        <a href="/" class="btn btn-secondary mt-4">Volver a la búsqueda de trabajos de titulación</a>
+    </div>
 </body>
 </html>
